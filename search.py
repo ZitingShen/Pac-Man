@@ -104,14 +104,13 @@ def depthFirstSearch(problem):
     explored = {problem.getStartState(): True}
     while (not frontier.isEmpty()):
         currentNode = frontier.pop()
-        print currentNode.state
         if (problem.isGoalState(currentNode.state)):
             return backtrack(currentNode)
         for successor in problem.getSuccessors(currentNode.state):
-            if (successor[0] in explored):
+            if (not successor[0] in explored):
                 frontier.push(Node(successor[0], currentNode, successor[1],
-                    successor[2], currentNode.pathCost+successor[2]))
-                explored[successor[0].etPacmanPosition()] = True
+                    successor[2], currentNode.pathCost + successor[2]))
+                explored[successor[0]] = True
     return []    
 
 
@@ -124,7 +123,7 @@ def backtrack(node):
     """Backtrack to get the list of actions from start to the goal state."""
     if (node.actionTaken is None):
         return []
-    return [node.actionTaken] + backtrack(node.parent)
+    return backtrack(node.parent) + [node.actionTaken]
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
