@@ -102,12 +102,12 @@ def depthFirstSearch(problem):
     frontier = util.Stack()
     frontier.push(Node(problem.getStartState(), None, None, 0, 0))
     explored = {problem.getStartState(): True}
-    while (not frontier.isEmpty()):
+    while not frontier.isEmpty():
         currentNode = frontier.pop()
-        if (problem.isGoalState(currentNode.state)):
+        if problem.isGoalState(currentNode.state):
             return backtrack(currentNode)
         for successor in problem.getSuccessors(currentNode.state):
-            if (not successor[0] in explored):
+            if not successor[0] in explored:
                 frontier.push(Node(successor[0], currentNode, successor[1],
                     successor[2], currentNode.pathCost + successor[2]))
                 explored[successor[0]] = True
