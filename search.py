@@ -120,7 +120,7 @@ def breadthFirstSearch(problem):
     frontier =  util.Queue()
     explored = {problem.getStartState(): True}
     #assume path cost is 0 to start with, assume the first step cost is 0
-    frontier.push(Node(problem.isGoalState(problem.getStartState()),  None, None, 1, 0))
+    frontier.push(Node(problem.getStartState(),  None, None, 0, 0))
     while not frontier.isEmpty():
         currentNode=frontier.pop()
         if problem.isGoalState(currentNode.state):
