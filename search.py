@@ -24,10 +24,10 @@ class Node:
     Node class used in the search algorithms.
     """
 
-    def __init__(self, state, parent, actionsTaken, stepCost, pathCost):
+    def __init__(self, state, parent, actionTaken, stepCost, pathCost):
         self.state = state
         self.parent = parent
-        self.actionsTaken = actionsTaken
+        self.actionTaken = actionTaken
         self.stepCost = stepCost
         self.pathCost = pathCost
 
@@ -99,13 +99,32 @@ def depthFirstSearch(problem):
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    frontier = util.Stack()
+    frontier.push(Node(problem.getStartState(), None, None, 0, 0))
+    explored = {problem.getStartState(): True}
+    while (not frontier.isEmpty()):
+        currentNode = frontier.pop()
+        print currentNode.state
+        if (problem.isGoalState(currentNode.state)):
+            return backtrack(currentNode)
+        for successor in problem.getSuccessors(currentNode.state):
+            if (successor[0] in explored):
+                frontier.push(Node(successor[0], currentNode, successor[1],
+                    successor[2], currentNode.pathCost+successor[2]))
+                explored[successor[0].etPacmanPosition()] = True
+    return []    
+
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
+def backtrack(node):
+    """Backtrack to get the list of actions from start to the goal state."""
+    if (node.actionTaken is None):
+        return []
+    return [node.actionTaken] + backtrack(node.parent)
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
