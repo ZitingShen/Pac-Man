@@ -124,20 +124,13 @@ def breadthFirstSearch(problem):
     frontier.push(Node(problem.isGoalState(problem.getStartState()),  None, None, 1, 0))
     while not frontier.isEmpty():
         currentNode=frontier.pop()
-        if problem.isGoalSatate(currentNode.state()):
+        if problem.isGoalState(currentNode.state):
             return backtrack(currentNode)
-        else:
-            for sec in problem.getSuccessors(problem.currentNode.state()):
-                if not currentNode.state() in explored:
-                    frontier.push(Node(sec[0], currentNode, sec[1], sec[2], sec[2]+currentNode.pathCost))
-
-
-
-
-
-
-
-
+        for sec in problem.getSuccessors(currentNode.state):
+            if not sec[0] in explored:
+                frontier.push(Node(sec[0], currentNode, sec[1], sec[2], sec[2]+currentNode.pathCost))
+                explored[sec[0]] = True
+    return []
 
 def backtrack(node):
     """Backtrack to get the list of actions from start to the goal state."""
