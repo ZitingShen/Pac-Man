@@ -19,6 +19,19 @@ Pacman agents (in searchAgents.py).
 
 import util
 
+class Node:
+    """
+    Node class used in the search algorithms.
+    """
+
+    def __init__(self, state, parent, actionsTaken, stepCost, pathCost):
+        self.state = state
+        self.parent = parent
+        self.actionsTaken = actionsTaken
+        self.stepCost = stepCost
+        self.pathCost = pathCost
+
+
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
