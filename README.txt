@@ -1,3 +1,4 @@
+2017/9/21
 1.
 a.Step 7:
 The Pac Man takes moves randomly. It might take a long time to finish without ghost, since its legalactions include 'STOP', and chooses actions randomly.
@@ -29,3 +30,10 @@ His current score in the game: gameState.getScore()
 2.
 After running both the random and reflec agent under several different layouts, we observed that even a simple reflex agent behaves much better than agent that takes totally random actions. 
 When we ran the game under myLayout that has ghost and capsules, we found that the reflex agent cannot successfully avoid ghost and has no initiative to eat capsules. We may 'motivate' our agent to eat capsules by checking scores after generating the successor state. However, without knowning which direction ghosts are moving toward, it is hard for us to find a effective way to avoid them.
+
+2017/09/21
+
+There is a trade-off between the number of node explored(time spent) and whether we can definitely find the optimal solution.
+BFS always returns the optimal solution but the number of nodes it explores is significantly more than DFS dose.
+DFS does not always return the optimal solution but it explores less node than BFS does, thus spending less time.
+Thus, depending on what the user want to achieve, to find a solution quickly or to find an optimal solution without considering time, he/she should choose accordingly as discussed above.
