@@ -40,6 +40,7 @@ from game import Actions
 import util
 import time
 import search
+import copy
 
 class GoWestAgent(Agent):
     "An agent that goes West until it can't."
@@ -265,6 +266,15 @@ def euclideanHeuristic(position, problem, info={}):
 #####################################################
 # This portion is incomplete.  Time to write code!  #
 #####################################################
+class CornersProblemState():
+    """
+    Abstract state representation used in CornersProblem.
+    """
+
+    def __init__(self, pacmanPosition, cornersVisited):
+        self.pacmanPosition = pacmanPosition
+        self.cornersVisited = cornersVisited
+
 
 class CornersProblem(search.SearchProblem):
     """
@@ -287,22 +297,26 @@ class CornersProblem(search.SearchProblem):
         self._expanded = 0 # DO NOT CHANGE; Number of search nodes expanded
         # Please add any code here which you would like to use
         # in initializing the problem
-        "*** YOUR CODE HERE ***"
+        x, y = self.startingPosition
+        cornersVisited = {}
+        if (x, y) in self.corners:
+            cornersVisited[(x, y)] = True
+        self.startState = CornersProblemState(self.startingPosition, cornersVisited)
 
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.startState
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        if len(state.cornersVisited) == 4:
+            return True
+        return False
 
     def getSuccessors(self, state):
         """
@@ -323,8 +337,15 @@ class CornersProblem(search.SearchProblem):
             #   dx, dy = Actions.directionToVector(action)
             #   nextx, nexty = int(x + dx), int(y + dy)
             #   hitsWall = self.walls[nextx][nexty]
-
-            "*** YOUR CODE HERE ***"
+            x, y = state.pacmanPosition
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            if not self.walls[nextx][nexty]:
+                newCornersVisited = copy.deepcopy(state.cornersVisited)
+                if (nextx, nexty) in self.corners:
+                    newCornersVisited[(nextx, nexty)] = True
+                nextState = CornersProblemState((nextx, nexty), newCornersVisited)
+                successors.append((nextState, action, 0))
 
         self._expanded += 1 # DO NOT CHANGE
         return successors

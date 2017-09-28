@@ -24,7 +24,7 @@ class Node:
     Node class used in the search algorithms.
     """
 
-    def __init__(self, state, parent, actionTaken, stepCost, pathCost):
+    def __init__(self, state, parent, actionTaken, stepCost, pathCost, cornersVisited={}):
         self.state = state
         self.parent = parent
         self.actionTaken = actionTaken
@@ -117,7 +117,7 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     frontier =  util.Queue()
-    explored = {problem.getStartState(): True}
+    #explored = {problem.getStartState(): True}
     #assume path cost is 0 to start with, assume the first step cost is 0
     frontier.push(Node(problem.getStartState(),  None, None, 0, 0))
     while not frontier.isEmpty():
@@ -125,9 +125,9 @@ def breadthFirstSearch(problem):
         if problem.isGoalState(currentNode.state):
             return backtrack(currentNode)
         for sec in problem.getSuccessors(currentNode.state):
-            if not sec[0] in explored:
-                frontier.push(Node(sec[0], currentNode, sec[1], sec[2], sec[2]+currentNode.pathCost))
-                explored[sec[0]] = True
+            #if not sec[0] in explored:
+            frontier.push(Node(sec[0], currentNode, sec[1], sec[2], sec[2]+currentNode.pathCost))
+                #explored[sec[0]] = True
     return []
 
 def backtrack(node):
