@@ -37,3 +37,13 @@ There is a trade-off between the number of node explored(time spent) and whether
 BFS always returns the optimal solution but the number of nodes it explores is significantly more than DFS dose.
 DFS does not always return the optimal solution but it explores less node than BFS does, thus spending less time.
 Thus, depending on what the user want to achieve, to find a solution quickly or to find an optimal solution without considering time, he/she should choose accordingly as discussed above.
+
+2017／09／28
+
+2.
+We ran A* Search, BFS and DFS on openMaze. And the following is the result:
+
+3.
+We can see that A* explored the least number of nodes, and its answer is really close to the optimal. Its score is close to the optimal as well. In fact, if we can have an accurate estimation of heuristic, we will actually achieve optimal. However, the heuristic we are using is Manhattan Heuristic which doesn't take walls into account.
+BFS explores the most number of nodes but the answer it returns is the shortest path and is the optimal solution. Since it explores states "layer by layer" so it always find the shortest path. Yet it is because of its traversal of all possible positions that it explores the most number of nodes.
+DFS doesn't do well on this task, it explores a lot of nodes yet returns a path far from optimal. It is because DFS is designed to go further in the graph and return to explore previous nodes' neighbors only if there is no legal action. It also does not have the layer structure that can implicitly tell the length to the scurrent position. Thus it cannot always find the shortest path.
