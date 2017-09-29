@@ -388,8 +388,9 @@ def cornersHeuristic(state, problem):
 
     xy = state.pacmanPosition
     heuristics = 0
-    for corner in problem.corners: 
-        heuristics += abs(xy[0] - corner[0]) + abs(xy[1] - corner[1])
+    for corner in problem.corners:
+        if (corner not in state.cornersVisited):
+            heuristics += abs(xy[0] - corner[0]) + abs(xy[1] - corner[1])
     return heuristics
 
 class AStarCornersAgent(SearchAgent):
