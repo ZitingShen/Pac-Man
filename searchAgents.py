@@ -275,6 +275,12 @@ class CornersProblemState():
         self.pacmanPosition = pacmanPosition
         self.cornersVisited = cornersVisited
 
+    def __hash__(self):
+        return hash((self.pacmanPosition, frozenset(self.cornersVisited.items())))
+
+    def __eq__(self, other):
+        return (self.pacmanPosition, self.cornersVisited) == (other.pacmanPosition, other.cornersVisited)
+
 
 class CornersProblem(search.SearchProblem):
     """
