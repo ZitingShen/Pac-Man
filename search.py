@@ -140,17 +140,19 @@ def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     frontier = util.PriorityQueue()
     frontier.push(Node(problem.getStartState(), None, None, 0, 0), 0)
-    explored = {problem.getStartState(): True}
+    explored = {}
     while not frontier.isEmpty():
         currentNode = frontier.pop()
+        if currentNode.state in explored:
+            continue
+        explored[currentNode.state] = True
         if problem.isGoalState(currentNode.state):
             return backtrack(currentNode)
         for successor in problem.getSuccessors(currentNode.state):
             if not successor[0] in explored:
                 frontier.push(Node(successor[0], currentNode, successor[1],
                     successor[2], currentNode.pathCost + successor[2]), 
-                    currentNode.pathCost + successor[2])
-                explored[successor[0]] = True
+                    currentNode.pathCost + successor[2])  
     return []
 
 def nullHeuristic(state, problem=None):
@@ -162,18 +164,20 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    frontier = util.PriorityQueueWithFunction(lambda node: heuristic(node.state, problem))
+    frontier = util.PriorityQueueWithFunction(lambda node: heuristic(node.state, problem)+node.pathCost)
     frontier.push(Node(problem.getStartState(), None, None, 0, 0))
-    explored = {problem.getStartState(): True}
+    explored = {}
     while not frontier.isEmpty():
         currentNode = frontier.pop()
+        if currentNode.state in explored:
+            continue
+        explored[currentNode.state] = True
         if problem.isGoalState(currentNode.state):
             return backtrack(currentNode)
         for successor in problem.getSuccessors(currentNode.state):
             if not successor[0] in explored:
                 frontier.push(Node(successor[0], currentNode, successor[1],
                     successor[2], currentNode.pathCost + successor[2]))
-                explored[successor[0]] = True
     return []
 
 

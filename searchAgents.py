@@ -369,6 +369,13 @@ class CornersProblem(search.SearchProblem):
             if self.walls[x][y]: return 999999
         return len(actions)
 
+def chebyshevDistance( xy1, xy2 ):
+    """
+    Returns the Chebyshev distance between points xy1 and xy2.
+    The idea is from this website:
+    https://lyfat.wordpress.com/2012/05/22/euclidean-vs-chebyshev-vs-manhattan-distance/
+    """
+    return max(abs(xy1[0] - xy2[0]), abs(xy1[1] - xy2[1]))
 
 def cornersHeuristic(state, problem):
     """
@@ -386,12 +393,16 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
-    xy = state.pacmanPosition
-    heuristics = 0
-    for corner in problem.corners:
-        if (corner not in state.cornersVisited):
-            heuristics += abs(xy[0] - corner[0]) + abs(xy[1] - corner[1])
-    return heuristics
+    heuristic = max(walls.width-2, walls.height-2)
+    """
+    The underlying logic is that we want to explore the closest corner first.
+    The closer we are to a corner, the more we want to explore to ensure we
+    will not be stucked in some dead ends.
+    """
+    for corner in corners:
+        if chebyshevDistance(state.pacmanPosition, corner) < heuristic:
+            heuristic = chebyshevDistance(state.pacmanPosition, corner)
+    return heuristic
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
